@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <AsyncMqttClient.h>
 #include <WiFi.h>
+#include <LittleFS.h>
 
 #include "mqtt/config.h"
 #include "mqtt/mqtt.hpp"
@@ -9,6 +10,11 @@ void setup() {
   Serial.begin(9600);
 
   while (!Serial && millis() < 5000);
+
+  if (!LittleFS.begin()) {
+    Serial.println("Failed to mount LittleFS");
+    return;
+  }
 
   Serial.printf("\nStarting HUB75-LED-matrix-with-mqtt on %s\n", ARDUINO_BOARD);
 
